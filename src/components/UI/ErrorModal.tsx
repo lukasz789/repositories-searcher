@@ -1,15 +1,25 @@
 import classes from "./ErrorModal.module.css";
 
 const ErrorModal: React.FC<{
-  errorMessage: string;
+  errorMessage: string | number;
 }> = (props) => {
+  let message: string;
+
+  switch (props.errorMessage) {
+    case 403:
+      message =
+        "You are searching for new repositories too fast, please wait a minute.";
+      break;
+    case 422:
+      message = "Specified user does not exist.";
+      break;
+    default:
+      message = "Something went wrong, pleasy try again in a moment.";
+  }
+
   return (
     <div className={`alert alert-danger ${classes.error}`} role="alert">
-      {props.errorMessage}, please wait a moment, refresh page and try again
-      soon.
-      {props.errorMessage === "Request failed with status code 403"
-        ? " This usually indicates that user is searching for new repositories too often."
-        : null}
+      {message}
     </div>
   );
 };

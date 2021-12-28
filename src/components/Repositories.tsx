@@ -14,7 +14,7 @@ const Repositories: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [pageCount, setPageCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string | number>("");
 
   console.log(currentPage);
   console.log(user);
@@ -37,12 +37,13 @@ const Repositories: React.FC = () => {
           setRepos(data.items);
           setErrorMessage("");
         } catch (error) {
-          let errorMessage = "Failed to do something exceptional";
-          if (error instanceof Error) {
-            errorMessage = error.message;
+          if (axios.isAxiosError(error) && error.response) {
+            setErrorMessage(error.response!.status);
+          } else {
+            setErrorMessage(
+              "Something went wrong, pleasy try again in a moment."
+            );
           }
-          console.log(errorMessage);
-          setErrorMessage(errorMessage);
         }
         setIsLoading(false);
       };

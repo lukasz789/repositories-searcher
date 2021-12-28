@@ -1,24 +1,23 @@
-import { useRef, useContext, Fragment } from "react";
+import { useState, useContext, Fragment } from "react";
 import { UserContext } from "../store/user-context";
 import classes from "./Form.module.css";
 
 const Form: React.FC = () => {
   console.log("FORM COMPONENT");
-  const userInputRef = useRef<HTMLInputElement>(null);
   const { setUser } = useContext(UserContext);
+  const [userInput, setUserInput] = useState("");
 
   const formSubmissionHandler = (event: React.FormEvent) => {
     console.log("form submit");
     event.preventDefault();
-
-    const enteredText = userInputRef.current!.value;
-    if (enteredText?.trim().length === 0) {
-      //throw error HERE
-      return;
-    }
-
-    setUser(enteredText);
+    setUser(userInput);
   };
+
+  const nameChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserInput(event.target.value);
+  };
+
+  const btnAdditionalStyling = userInput ? "" : "disabled";
 
   return (
     <Fragment>
@@ -31,13 +30,14 @@ const Form: React.FC = () => {
             type="text"
             className={`form-control form-control-lg ${classes.input}`}
             placeholder="Write username"
-            ref={userInputRef}
+            value={userInput}
+            onChange={nameChangeHandler}
           />
         </div>
         <div className={classes["button-wrap"]}>
           <button
             type="submit"
-            className={`btn btn-primary btn-lg btn-block  ${classes.button}`}
+            className={`btn btn-primary btn-lg btn-block  ${classes.button} ${btnAdditionalStyling}`}
           >
             Search
           </button>
