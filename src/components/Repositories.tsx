@@ -5,6 +5,7 @@ import axios from "axios";
 import classes from "./Repositories.module.css";
 import RepositoryItem from "./RepositoryItem";
 import LoadingSpinner from "./UI/LoadingSpinner";
+import ErrorModal from "./UI/ErrorModal";
 
 const Repositories: React.FC = () => {
   console.log("REPOSITORIES COMPONENT");
@@ -13,6 +14,7 @@ const Repositories: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [pageCount, setPageCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   console.log(currentPage);
   console.log(user);
@@ -33,12 +35,14 @@ const Repositories: React.FC = () => {
           const data = await response.data;
           setPageCount(Math.ceil(data.total_count / 11));
           setRepos(data.items);
+          setErrorMessage("");
         } catch (error) {
           let errorMessage = "Failed to do something exceptional";
           if (error instanceof Error) {
             errorMessage = error.message;
           }
           console.log(errorMessage);
+          setErrorMessage(errorMessage);
         }
         setIsLoading(false);
       };
@@ -65,7 +69,7 @@ const Repositories: React.FC = () => {
   return (
     <div className={classes["table-wrap"]}>
       {isLoading ? <LoadingSpinner /> : null}
-      {repositories.length ? (
+      {repositories.length && !errorMessage ? (
         <Fragment>
           <table className="table table-hover">
             <thead className={`table-dark ${classes.header}`}>
@@ -96,6 +100,7 @@ const Repositories: React.FC = () => {
           />
         </Fragment>
       ) : null}
+      {errorMessage ? <ErrorModal errorMessage={errorMessage} /> : null}
     </div>
   );
 };
