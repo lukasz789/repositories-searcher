@@ -28,6 +28,10 @@
 
   .input-wrap {
     width: 95%;
-    padding: 0.5rem 0;
+    padding: 0.15rem 0;
+  }
+
+  .caption {
+    padding-bottom: 0;
   }
 }

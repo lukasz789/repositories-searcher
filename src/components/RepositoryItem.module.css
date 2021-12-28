@@ -1,0 +1,5 @@
+@media screen and (max-width: 768px) {
+  .tablerow {
+    line-height: 0.8rem;
+  }
+}

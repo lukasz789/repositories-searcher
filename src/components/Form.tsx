@@ -39,7 +39,7 @@ const Form: React.FC = () => {
             type="submit"
             className={`btn btn-primary btn-lg btn-block  ${classes.button}`}
           >
-            Search!
+            Search
           </button>
         </div>
       </form>

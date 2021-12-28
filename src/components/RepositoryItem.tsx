@@ -1,10 +1,12 @@
+import classes from "./RepositoryItem.module.css";
+
 const RepositoryItem: React.FC<{
   html_url: string;
   name: string;
   stargazers_count: number;
 }> = (props) => {
   return (
-    <tr>
+    <tr className={classes.tablerow}>
       <th>
         <a href={props.html_url} target="_blank">
           {props.name}
