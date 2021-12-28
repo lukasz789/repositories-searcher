@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../store/user-context";
 import axios from "axios";
 import classes from "./Repositories.module.css";
+import RepositoryItem from "./RepositoryItem";
 
 const Repositories: React.FC = () => {
   console.log("REPOSITORIES COMPONENT");
@@ -38,14 +39,12 @@ const Repositories: React.FC = () => {
 
   const repositories = repos.map((item) => {
     return (
-      <tr key={item.id}>
-        <th>
-          <a href={item.html_url} target="_blank">
-            {item.name}
-          </a>
-        </th>
-        <th>&#9734;{item.stargazers_count}</th>
-      </tr>
+      <RepositoryItem
+        key={item.id}
+        html_url={item.html_url}
+        name={item.name}
+        stargazers_count={item.stargazers_count}
+      />
     );
   });
 
