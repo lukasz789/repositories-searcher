@@ -14,7 +14,7 @@ const ErrorModal: React.FC<{
       message = "Specified user does not exist.";
       break;
     default:
-      message = "Something went wrong, pleasy try again in a moment.";
+      message = "Something went wrong, please try again in a moment.";
   }
 
   return (
