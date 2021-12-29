@@ -13,7 +13,7 @@ const Repositories: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [pageCount, setPageCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string | number>("");
+  const [errorCode, setErrorCode] = useState<string | number>("");
 
   useEffect(() => {
     setCurrentPage(1);
@@ -30,12 +30,12 @@ const Repositories: React.FC = () => {
           const data = await response.data;
           setPageCount(Math.ceil(data.total_count / 11));
           setRepos(data.items);
-          setErrorMessage("");
+          setErrorCode("");
         } catch (error) {
           if (axios.isAxiosError(error) && error.response) {
-            setErrorMessage(error.response!.status);
+            setErrorCode(error.response!.status);
           } else {
-            setErrorMessage("Server not responding");
+            setErrorCode("Server not responding");
           }
         }
         setIsLoading(false);
@@ -62,7 +62,7 @@ const Repositories: React.FC = () => {
   return (
     <div className={classes["table-wrap"]}>
       {isLoading ? <LoadingSpinner data-testid="spinner" /> : null}
-      {repositories.length && !errorMessage ? (
+      {repositories.length && !errorCode ? (
         <Fragment>
           <table className="table table-hover" aria-label="repo-table">
             <thead className={`table-dark ${classes.header}`}>
@@ -93,7 +93,7 @@ const Repositories: React.FC = () => {
           />
         </Fragment>
       ) : null}
-      {errorMessage ? <ErrorModal errorMessage={errorMessage} /> : null}
+      {errorCode ? <ErrorModal errorCode={errorCode} /> : null}
     </div>
   );
 };
