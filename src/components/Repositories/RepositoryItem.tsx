@@ -6,7 +6,7 @@ const RepositoryItem: React.FC<{
   stargazers_count: number;
 }> = (props) => {
   return (
-    <tr className={classes.tablerow}>
+    <tr className={classes.tablerow} role="row">
       <th>
         <a href={props.html_url} target="_blank">
           {props.name}

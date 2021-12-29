@@ -17,3 +17,12 @@ test("button is enabled if input is not empty and disabled if input is set to em
   fireEvent.change(input, { target: { value: "" } });
   expect(button).toHaveClass("disabled");
 });
+
+test("h1 element visible", () => {
+  render(<Form />);
+  const h1 = screen.getByRole("heading", {
+    name: /find the most popular repositories by a user!/i,
+  });
+
+  expect(h1).toBeInTheDocument();
+});

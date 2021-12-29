@@ -8,7 +8,6 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 import ErrorModal from "../UI/ErrorModal";
 
 const Repositories: React.FC = () => {
-  console.log("REPOSITORIES COMPONENT");
   const { user } = useContext(UserContext);
   const [repos, setRepos] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(0);
@@ -16,37 +15,21 @@ const Repositories: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | number>("");
 
-  console.log(currentPage);
-  console.log(user);
-
   useEffect(() => {
-    console.log("NEW USER SET");
-    console.log(`USER NOWY TU JEST TAKI ${user}`);
     setCurrentPage(1);
   }, [user]);
 
   useEffect(() => {
-    console.log("RUN USEEFFECT");
     if (user) {
-      console.log(
-        "FETCH NEW USER XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-      );
-      console.log(user);
       const getRepos = async () => {
         try {
           setIsLoading(true);
-          console.log("TRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
-          console.log(currentPage);
-          console.log(user);
           const response = await axios.get(
             `https://api.github.com/search/repositories?q=user:${user}&sort=stars&order=desc&per_page=11&page=${currentPage}`
           );
           const data = await response.data;
           setPageCount(Math.ceil(data.total_count / 11));
           setRepos(data.items);
-          console.log(
-            `${response}XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
-          );
           setErrorMessage("");
         } catch (error) {
           if (axios.isAxiosError(error) && error.response) {
@@ -72,19 +55,16 @@ const Repositories: React.FC = () => {
     );
   });
 
-  console.log(`ITEMS HERE ${repos}`);
-
   const handlePageClick = (data: { selected: number }) => {
-    console.log("zmiana page");
     setCurrentPage(data.selected + 1);
   };
 
   return (
     <div className={classes["table-wrap"]}>
-      {isLoading ? <LoadingSpinner /> : null}
+      {isLoading ? <LoadingSpinner data-testid="spinner" /> : null}
       {repositories.length && !errorMessage ? (
         <Fragment>
-          <table className="table table-hover">
+          <table className="table table-hover" aria-label="repo-table">
             <thead className={`table-dark ${classes.header}`}>
               <tr>
                 <th scope="col">Name</th>

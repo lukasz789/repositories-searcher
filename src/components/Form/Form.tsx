@@ -3,16 +3,12 @@ import { UserContext } from "../../store/user-context";
 import classes from "./Form.module.css";
 
 const Form: React.FC = () => {
-  console.log("FORM COMPONENT");
   const { setUser, user } = useContext(UserContext);
   const [userInput, setUserInput] = useState("");
 
   const formSubmissionHandler = (event: React.FormEvent) => {
-    console.log("FORM SUBMIT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
     event.preventDefault();
     setUser(userInput);
-    console.log(userInput);
-    console.log(user);
   };
 
   const nameChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
